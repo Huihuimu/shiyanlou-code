@@ -8,12 +8,12 @@ class Permission:
     ROLE_FORUMADMIN = 20  # 监督员，负责监督用户的博客及评论
     ROLE_ADMIN = 30       # 管理员，拥有最高权限
 
+
 class User:
     ''' 该类用于创建用户账号
     '''
-    # 初始化方法中需要定义用户的身份
-    # TODO 默认用户身份为普通用户
-    def __init__(self, name, email, password, role = Permission.ROLE_USER):
+
+    def __init__(self, name, email, password, role=Permission.ROLE_USER):
         self.name = name
         self.email = email
         self.password_hash = self.save_password(password)
@@ -27,17 +27,16 @@ class User:
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    # TODO 定义 is_admin 方法判断用户是否具有管理员权限，参考下面 main 中的使用
+    # 定义 is_admin 方法判断用户是否具有管理员权限
     # 要求该方法可以像调用属性一样调用（使用 property 装饰器）
+    @property
     def is_admin(self):
         return self.role == Permission.ROLE_ADMIN
 
-    # TODO 定义修改用户角色的方法 change_role，参考下面 main 中的使用
+    # 定义修改用户角色的方法
     def change_role(self, role):
         self.role = role
 
-
-# 该方法用于验证大家补充的代码功能是否能够正常使用
 def main():
     # 创建一个普通用户，无需提供角色参数，使用默认值
     user1 = User('James', 'james@haha.com', '123456')
@@ -51,8 +50,7 @@ def main():
             print('{} 不是管理员'.format(user.name))
             # 不是管理员的话，使用前面定义的方法将其角色修改为管理员
             user.change_role(Permission.ROLE_ADMIN)
-            print('修改角色后，{} 变成管理员'.format(user.name))
-
+            print('修改后，{} 变成管理员'.format(user.name))
 
 if __name__ == '__main__':
     main()
